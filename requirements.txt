@@ -10,4 +10,3 @@ pypdf
 tqdm
 ipykernel
 notebook
-jupyter
