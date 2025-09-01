@@ -1,0 +1,13 @@
+langchain
+langchain-community
+langchain-google-genai
+faiss-cpu
+nltk
+google-generativeai
+gradio
+sentence-transformers
+pypdf
+tqdm
+ipykernel
+notebook
+jupyter
