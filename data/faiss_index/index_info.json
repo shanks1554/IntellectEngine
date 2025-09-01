@@ -1,0 +1,7 @@
+{
+  "total_chunks": 12561,
+  "valid_chunks": 12361,
+  "embedding_dimension": 768,
+  "index_type": "IndexFlatIP",
+  "created_at": "2025-09-01T23:36:59.399771"
+}
