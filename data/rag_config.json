@@ -1,9 +1,0 @@
-{
-  "optimal_k": 5,
-  "embedding_model": "models/embedding-001",
-  "llm_model": "gemini-2.5-pro",
-  "chunk_size": 800,
-  "total_documents": 4,
-  "total_chunks": 12561,
-  "faiss_index_size": 12361
-}
