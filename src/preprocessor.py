@@ -1,4 +1,3 @@
-import os
 import pickle
 from pathlib import Path
 import nltk
@@ -48,7 +47,7 @@ class Preprocessor:
                     char_count += len(sent)
                 else:
                     chunks.append(" ".join(current_chunk))
-                    metadata.append({"source": doc.metadata.get("source", f"doc_{idx}")})
+                    metadata.append({"source_file": doc.metadata.get("source_file", f"doc_{idx}")})
 
                     # Overlap handling
                     overlap_sents = current_chunk[-self.overlap//50:]
@@ -57,7 +56,7 @@ class Preprocessor:
             
             if current_chunk:
                 chunks.append(" ".join(current_chunk))
-                metadata.append({"source": doc.metadata.get("source", f"doc_{idx}")})
+                metadata.append({"source_file": doc.metadata.get("source_file", f"doc_{idx}")})
         
         # Ensure processed_dir exists
         self.processed_dir.mkdir(parents = True, exist_ok = True)

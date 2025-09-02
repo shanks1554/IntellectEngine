@@ -1,5 +1,4 @@
 import logging
-import logger
 import os
 
 # Path to the logs directory
