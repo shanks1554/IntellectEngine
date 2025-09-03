@@ -1,7 +1,7 @@
 # main.py
 from dotenv import load_dotenv
 import gradio as gr
-
+import os
 from src.config import embedding_model
 from src.vectorstore import VectorStore
 from src.rag import RAG
@@ -74,4 +74,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
 
 if __name__ == "__main__":
     logger.info("Launching Gradio interface...")
-    demo.launch()
+    demo.launch(
+        server_name='0.0.0.0',
+        server_port=int(os.environ.get("PORT", 7860))
+    )
