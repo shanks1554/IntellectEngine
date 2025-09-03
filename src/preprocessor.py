@@ -18,10 +18,8 @@ class Preprocessor:
         self.logger = get_logger(self.__class__.__name__)
 
         # Ensure NLTK punkt is available
-        try:
-            nltk.data.find("tokenizers/punkt")
-        except:
-            nltk.download("punkt")
+        nltk.download("punkt_tab", quiet = True)
+        nltk.download("punkt", quiet = True)
     def loader_method(self):
         if self.chunks_file.exists() and self.metadata_file.exists():
             self.logger.info("Chunks and metadata already exists. Skipping preprocessing...")
@@ -29,7 +27,7 @@ class Preprocessor:
                 chunks = pickle.load(f1)
                 metadata = pickle.load(f2)
                 return chunks, metadata
-        self.logger.info("Processed chunks not found. Loading raw documents vai DataLoader...")
+        self.logger.info("Processed chunks not found. Loading raw documents via DataLoader...")
         documents = self.loader.load_pdfs()
         return self.process_documents(documents)
         

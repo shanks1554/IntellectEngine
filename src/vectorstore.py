@@ -5,12 +5,12 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 from tqdm import tqdm
-
+from preprocessor import Preprocessor
 from logger import get_logger
 
-
+preprocessor = Preprocessor()
 class VectorStore:
-    def __init__(self, embedding_model, embedding_dim=768, faiss_dir = 'data/faiss_index'):
+    def __init__(self, embedding_model, embedding_dim=768, faiss_dir = 'data/faiss_index', preprocessor = preprocessor):
         """
         Initialize VectorStore.
         Will auto-load existing FAISS DB if available, otherwise requires building.
@@ -18,7 +18,7 @@ class VectorStore:
         self.embedding_model = embedding_model
         self.embedding_dim = embedding_dim
         self.faiss_dir = Path(faiss_dir)
-
+        self.preprocessor = preprocessor
         # Files
         self.index_file = self.faiss_dir/ "intellect_engine.index"
         self.chunks_file = self.faiss_dir/ "chunks.pkl"
@@ -41,7 +41,9 @@ class VectorStore:
         if self.load():
             self.logger.info("✅ Using existing FAISS database")
         else:
-            self.logger.info("⚠️ No FAISS database found, please build one with .build()")
+            self.logger.info("⚠️ No FAISS database found, building it with .build()")
+            chunks, metadata = self.preprocessor.loader_method()
+            self.build(chunks=chunks, metadata=metadata)
     
     def generate_embeddings(self, chunks, batch_size=50):
         """Generate embeddings for chunks in batches."""
