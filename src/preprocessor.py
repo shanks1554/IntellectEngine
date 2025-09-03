@@ -2,16 +2,19 @@ import pickle
 from pathlib import Path
 import nltk
 from nltk.tokenize import sent_tokenize
-
+from data_loader import DataLoader
 from logger import get_logger
 
+
+loader = DataLoader(raw_dir='data/raw', processed_dir='data/processed')
 class Preprocessor:
-    def __init__(self, processed_dir = 'data/processed', chunk_size = 1000, overlap = 200):
+    def __init__(self, processed_dir = 'data/processed', chunk_size = 1000, overlap = 200, loader = loader):
         self.processed_dir = Path(processed_dir)
         self.chunks_file = self.processed_dir/"chunks.pkl"
         self.metadata_file = self.processed_dir/"metadata.pkl"
         self.chunks_size = chunk_size
         self.overlap = overlap
+        self.loader = loader
         self.logger = get_logger(self.__class__.__name__)
 
         # Ensure NLTK punkt is available
@@ -19,19 +22,21 @@ class Preprocessor:
             nltk.data.find("tokenizers/punkt")
         except:
             nltk.download("punkt")
-    
+    def loader_method(self):
+        if self.chunks_file.exists() and self.metadata_file.exists():
+            self.logger.info("Chunks and metadata already exists. Skipping preprocessing...")
+            with open(self.chunks_file,"rb") as f1, open(self.metadata_file, 'rb') as f2:
+                chunks = pickle.load(f1)
+                metadata = pickle.load(f2)
+                return chunks, metadata
+        self.logger.info("Processed chunks not found. Loading raw documents vai DataLoader...")
+        documents = self.loader.load_pdfs()
+        return self.process_documents(documents)
+        
     def process_documents(self, documents):
         """
         Preprocess documents into chunks.
-        Skip if already processed.
         """
-        if self.chunks_file.exists() and self.metadata_file.exists():
-            self.logger.info("Chunks and metadata already exists. Skipping preprocessing.")
-            with open(self.chunks_file, "rb") as f1, open(self.metadata_file, 'rb') as f2:
-                chunks = pickle.load(f1)
-                metadata = pickle.load(f2)
-            return chunks, metadata
-        
         self.logger.info("Started preprocessing of documents...")
         chunks, metadata = [], []
 
