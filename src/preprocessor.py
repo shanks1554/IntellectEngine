@@ -2,8 +2,8 @@ import pickle
 from pathlib import Path
 import nltk
 from nltk.tokenize import sent_tokenize
-from data_loader import DataLoader
-from logger import get_logger
+from src.data_loader import DataLoader
+from src.logger import get_logger
 
 
 loader = DataLoader(raw_dir='data/raw', processed_dir='data/processed')

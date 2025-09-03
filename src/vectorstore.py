@@ -5,8 +5,8 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 from tqdm import tqdm
-from preprocessor import Preprocessor
-from logger import get_logger
+from src.preprocessor import Preprocessor
+from src.logger import get_logger
 
 preprocessor = Preprocessor()
 class VectorStore:

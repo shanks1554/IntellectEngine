@@ -2,7 +2,7 @@ import pickle
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 
-from logger import get_logger
+from src.logger import get_logger
 
 class DataLoader:
     def __init__(self, raw_dir = 'data/raw', processed_dir = 'data/processed'):

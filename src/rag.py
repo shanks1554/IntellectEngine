@@ -1,6 +1,6 @@
 import google.generativeai as genai
-from vectorstore import VectorStore
-from logger import get_logger
+from src.vectorstore import VectorStore
+from src.logger import get_logger
 import os
 from dotenv import load_dotenv
 
